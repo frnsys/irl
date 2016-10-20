@@ -30,6 +30,13 @@ def get_users(screen_names):
         users += api.lookup_user(screen_name=screen_names[i:i+chunk_size])
     return users
 
+def lookup_tweets(ids):
+    chunk_size = 100 # max 100/request
+    tweets = []
+    for i in range(0, len(ids), chunk_size):
+        tweets + api.lookup_status(id=ids[i:i+chunk_size])
+    return tweets
+
 def assemble_conversations(screen_name, max_depth=10):
     tweets = get_tweets(screen_name) + get_mentions(screen_name)
 
@@ -44,7 +51,7 @@ def assemble_conversations(screen_name, max_depth=10):
                 parents.append(parent_id)
         if not parents:
             break
-        children = api.lookup_status(id=parents)
+        children = lookup_tweets(parents)
         tweets += children
 
     # assemble threads
