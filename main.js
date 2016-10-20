@@ -8,7 +8,7 @@ const CHAT_RADIUS = 4;
 
 $('input').on('keydown', function(ev) {
   if (ev.which === 13) {
-    var screen_name = $('input').val();
+    var screen_name = $('input').val().replace('@', '');
     $('.intro').text('loading...');
     $.get(`/convos/${screen_name}`, function(data) {
       $('.intro').remove();
